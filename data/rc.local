@@ -1,8 +1,5 @@
 #!/bin/bash
 
-/root/scripts/10-dhcp-client.sh
-/root/scripts/20-setup-nvidia.sh
-/root/scripts/20-setup-amd.sh
-/root/scripts/20-setup-sensors.sh
+/home/jxminer/setup/scripts/10-dhcp-client.sh
 
 exit 0

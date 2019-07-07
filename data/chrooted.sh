@@ -164,7 +164,7 @@ cp -r /etc/default/nodm /etc/nodm.conf
 # Adding jxos user
 cEcho "[-] Generating default user"
 echo "useradd jxminer -d /home/jxminer -p jxminer -m"
-echo -e "jxminer\njxminer" | passwd jxos
+echo -e "jxminer\njxminer" | passwd jxminer
 
 
 cEcho "[-] Changing root password"
@@ -182,9 +182,15 @@ cEcho "[-] Configuring JXMiner"
 mkdir -P /home/jxminer/.jxminer
 cp -rf /etc/jxminer /home/jxminer/.jxminer
 
+cEcho "[-] Preparing setup files"
+mkdir -p /home/jxminer/setup/files
+mv /root/scripts /home/jxminer/setup/
+mv /lib/udev/rules.d/71-nvidia.rules /home/jxminer/setup/files
+mv /lib/systemd/system/nvidia-persistenced.service /home/jxminer/setup/files
+
 
 cEcho "[-] Fixing jxminer home folders"
-chown -R jxminer:jxminer /home/jxos
+chown -R jxminer:jxminer /home/jxminer
 usermod -m -d /home/jxminer jxminer
 
 

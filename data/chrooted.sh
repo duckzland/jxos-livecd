@@ -146,9 +146,10 @@ DEBIAN_FRONTEND=noninteractive /usr/bin/dpkg -i --force-confdef $PACKAGE_PATH/de
 ### FINALIZING INSTALLATION
 
 # Attempt to configure xserver, this probably wont work since we dont have proper GPU initialized yet
+# This should be done manually by user after the system boots
 cEcho "[-] Configuring XServer"
 cp -f $PACKAGE_PATH/files/edid.bin /etc/X11
-/usr/bin/nvidia-xconfig -a --allow-empty-initial-configuration --use-display-device="DFP-0:/etc/X11/edid.bin" --connected-monitor="DFP-0" --cool-bits=31
+#/usr/bin/nvidia-xconfig -a --allow-empty-initial-configuration --use-display-device="DFP-0:/etc/X11/edid.bin" --connected-monitor="DFP-0" --cool-bits=31
 
 # AMDGPU setup
 cEcho "[-] Configuring AMD driver"

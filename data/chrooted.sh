@@ -181,7 +181,10 @@ cp -rf $PACKAGE_PATH/files/rc.lua /home/jxminer/.config/awesome/rc.lua
 
 cEcho "[-] Configuring JXMiner"
 mkdir -P /home/jxminer/.jxminer
-cp -rf /etc/jxminer /home/jxminer/.jxminer
+cp -rf $PACKAGE_PATH/jxminer/* /home/jxminer/.jxminer
+
+cEcho "[-] Setting bash as the default shell for jxminer"
+chsh -s /bin/bash jxminer
 
 cEcho "[-] Preparing setup files"
 mkdir -p /home/jxminer/setup/files
@@ -246,6 +249,7 @@ DEBIAN_FRONTEND=noninteractive /usr/bin/apt -q 2 -y --force-yes autoremove -o Dp
 DEBIAN_FRONTEND=noninteractive /usr/bin/apt clean
 
 # Remove installation sources
+rm -rf $PACKAGE_PATH/jxminer
 rm -rf $PACKAGE_PATH/pip
 rm -rf $PACKAGE_PATH/deb
 rm -rf $PACKAGE_PATH/keys

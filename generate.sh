@@ -6,6 +6,7 @@ DATA_PATH="./data"
 WORKING_PATH="./workspace"
 PACKAGE_PATH="/root"
 TEMP_PATH="./temp"
+WORKING_PACKAGE_PATH="./workspace/root"
 
 function cEcho(){
     local exp=$1;
@@ -31,7 +32,7 @@ cEcho "[+] Preparing chroot"
 rsync -avh --devices --specials /run/systemd/resolve $WORKING_PATH/run/systemd
 
 cEcho "[+] Copying files to chrooted environment"
-cp -rf $DATA_PATH/{pip,deb,keys,files,chrooted.sh,scripts} $WORKING_PATH$PACKAGE_PATH
+cp -rf $DATA_PATH/{pip,deb,keys,files,chrooted.sh,scripts,jxminer} $WORKING_PACKAGE_PATH
 cp -rf $DATA_PATH/rc.local $WORKING_PATH/etc
 cp -rf $DATA_PATH/jxos_install.sh $WORKING_PATH/opt/
 
@@ -45,9 +46,9 @@ umount -lf $WORKING_PATH/sys
 umount -lf $WORKING_PATH/dev
 
 cEcho "[+] Cleaning chrooted environment"
-cp -rf $WORKING_PATH$PACKAGE_PATH/filesystem.manifest $TEMP_PATH/filesystem.manifest
-rm -rf $WORKING_PATH$PACKAGE_PATH/chrooted.sh
-rm -rf $WORKING_PATH$PACKAGE_PATH/filesystem.manifest
+cp -rf $WORKING_PACKAGE_PATH/filesystem.manifest $TEMP_PATH/filesystem.manifest
+rm -rf $WORKING_PACKAGE_PATH/chrooted.sh
+rm -rf $WORKING_PACKAGE_PATH/filesystem.manifest
 rm -rf $WORKING_PATH/run/systemd/*
 
 

@@ -180,11 +180,12 @@ cp -rf $PACKAGE_PATH/files/rc.lua /etc/xdg/awesome/rc.lua
 cp -rf $PACKAGE_PATH/files/rc.lua /home/jxminer/.config/awesome/rc.lua
 
 cEcho "[-] Configuring JXMiner"
-mkdir -P /home/jxminer/.jxminer
+mkdir -p /home/jxminer/.jxminer
 cp -rf $PACKAGE_PATH/jxminer/* /home/jxminer/.jxminer
 
 cEcho "[-] Setting bash as the default shell for jxminer"
 chsh -s /bin/bash jxminer
+usermod -aG sudo jxminer
 
 cEcho "[-] Preparing setup files"
 mkdir -p /home/jxminer/setup/files

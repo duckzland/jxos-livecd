@@ -137,6 +137,8 @@ sed -i 's/VERSION_ID="18.04"/VERSION_ID="18.10"/g' /etc/os-release
 cEcho "[-] Installing Python requirements"
 /usr/bin/pip install $PACKAGE_PATH/pip/*
 
+# Websocket problematic need to install it last
+/usr/bin/pip install websocket-client
 
 # Installing packages
 cEcho "[-] Installing miners and tools"
@@ -164,9 +166,8 @@ cp -r /etc/default/nodm /etc/nodm.conf
 
 # Adding jxos user
 cEcho "[-] Generating default user"
-echo "useradd jxminer -d /home/jxminer -p jxminer -m"
+echo "useradd jxminer"
 echo -e "jxminer\njxminer" | passwd jxminer
-
 
 cEcho "[-] Changing root password"
 echo -e "jxminer\njxminer" | passwd
@@ -189,20 +190,32 @@ usermod -aG sudo jxminer
 
 cEcho "[-] Preparing setup files"
 mkdir -p /home/jxminer/setup/files
-mv /root/scripts /home/jxminer/setup/
-mv /lib/udev/rules.d/71-nvidia.rules /home/jxminer/setup/files
-mv /lib/systemd/system/nvidia-persistenced.service /home/jxminer/setup/files
+mv /root/scripts/* /home/jxminer/setup/
+mv /lib/udev/rules.d/71-nvidia.rules /home/jxminer/setup/files/
+mv /lib/systemd/system/nvidia-persistenced.service /home/jxminer/setup/files/
 
+cEcho "[=] Updating locales"
+echo "export LANGUAGE=en_US.UTF-8" >> /home/jxminer/.bash_profile
+echo "export LANG=en_US.UTF-8" >> /home/jxminer/.bash_profile
+echo "export LC_ALL=en_US.UTF-8" >> /home/jxminer/.bash_profile
+echo "LANGUAGE=en_US.UTF-8" >> /etc/environment
+echo "LANG=en_US.UTF-8" >> /etc/environment
+echo "LC_ALL=en_US.UTF-8" >> /etc/environment
 
 cEcho "[-] Fixing jxminer home folders"
 chown -R jxminer:jxminer /home/jxminer
 usermod -m -d /home/jxminer jxminer
 
+cEcho "[-] Bug fix for udev infinite loop"
+cp -rf $PACKAGE_PATH/files/jxos-setup.service /etc/systemd/system
+systemctl daemon-reload
 
 cEcho "[-] Setting up systemctl"
 systemctl enable jxminer
 systemctl enable nodm
-systemctl enable rc.local
+#systemctl enable rc.local
+systemctl enable jxos-setup
+#systemctl enable bugfix-1759836
 
 systemctl disable ufw
 systemctl disable apt-daily-upgrade
@@ -218,7 +231,6 @@ systemctl disable snapd.hold
 systemctl disable accounts-daemon
 systemctl disable apport-autoreport
 systemctl disable nvidia-persistenced
-
 
 rm -f /etc/systemd/system/apparmor.service
 rm -f /etc/systemd/system/apport-forward.socket

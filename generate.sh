@@ -33,8 +33,8 @@ rsync -avh --devices --specials /run/systemd/resolve $WORKING_PATH/run/systemd
 
 cEcho "[+] Copying files to chrooted environment"
 cp -rf $DATA_PATH/{pip,deb,keys,files,chrooted.sh,scripts,jxminer} $WORKING_PACKAGE_PATH
-cp -rf $DATA_PATH/rc.local $WORKING_PATH/etc
-cp -rf $DATA_PATH/jxos_install.sh $WORKING_PATH/opt/
+#cp -rf $DATA_PATH/rc.local $WORKING_PATH/etc
+#cp -rf $DATA_PATH/jxos_install.sh $WORKING_PATH/opt/
 
 cEcho "[+] Chrooting to workspace"
 mount --bind /dev/ $WORKING_PATH/dev

@@ -23,7 +23,8 @@ for s = 1, screen.count() do
     tags[s] = awful.tag.add("JXMiner", {
       gap = 0,
       screen = s,
-      layout = layouts[1]
+      layout = layouts[1],
+      selected = true,
     })
     tags[s] = awful.tag.add("Terminal", {
       gap = 2,

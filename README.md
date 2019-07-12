@@ -26,12 +26,12 @@ You might need to create these folders manually :
 
 # Usage
 
-build.sh - Auto invoke all the child scripts
-prepare.sh - Preparing the chrooted environment with base ubuntu
-activate.sh - Populating the chrooted environment with networking and dev
-deactivate.sh - Depopulating the chrooted environment and clean it up
-generate.sh - Populating chrooted environment with packages and settings
-packing.sh - Pack the chrooted environment to squashfs
-finalize.sh - Create the iso file
+1. build.sh - Auto invoke all the child scripts
+2. prepare.sh - Preparing the chrooted environment with base ubuntu
+3. activate.sh - Populating the chrooted environment with networking and dev
+4. deactivate.sh - Depopulating the chrooted environment and clean it up
+5. generate.sh - Populating chrooted environment with packages and settings
+6. packing.sh - Pack the chrooted environment to squashfs
+7. finalize.sh - Create the iso file
 
 

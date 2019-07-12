@@ -1,10 +1,11 @@
 [Unit]
 Description=Final setup for JXOS live os
+After=multi-user.target
 
 [Service]
 Type=oneshot
 ExecStart=/home/jxminer/setup/00-jxos-setup.sh
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=custom.target
 

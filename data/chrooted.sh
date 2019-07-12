@@ -99,7 +99,7 @@ DEBIAN_FRONTEND=noninteractive /usr/bin/apt install -q 2 -y apt-fast -o Dpkg::Op
 # Install all the required program that can be installed via ubuntu repository
 cEcho "[-] Installing softwares"
 DEBIAN_FRONTEND=noninteractive /usr/bin/apt install -q 2 -y \
-	ubuntu-standard casper lupin-casper discover laptop-detect os-prober linux-generic \
+	ubuntu-standard casper lupin-casper discover laptop-detect os-prober linux-generic ubiquity-frontend-debconf \
 	grub2 plymouth-x11 network-manager \
 	nvidia-driver-418 nvidia-settings lightdm- cuda-cudart-9-2 \
 	python python-pip  python-nfqueue  python-urwid  python-setuptools  \
@@ -208,6 +208,9 @@ usermod -m -d /home/jxminer jxminer
 
 cEcho "[-] Bug fix for udev infinite loop"
 cp -rf $PACKAGE_PATH/files/jxos-setup.service /etc/systemd/system
+cp -rf $PACKAGE_PATH/files/custom.target /etc/systemd/system
+mkdir /etc/systemd/system/custom.target.wants
+
 systemctl daemon-reload
 
 cEcho "[-] Setting up systemctl"

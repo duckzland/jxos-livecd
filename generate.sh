@@ -1,11 +1,8 @@
 #!/bin/bash
+# Script for generating the chrooted environment
 
-MOUNT_PATH="./cdrom"
-SOURCE_PATH="./source"
 DATA_PATH="./data"
 WORKING_PATH="./workspace"
-PACKAGE_PATH="/root"
-TEMP_PATH="./temp"
 WORKING_PACKAGE_PATH="./workspace/root"
 
 function cEcho(){
@@ -28,28 +25,16 @@ function cEcho(){
     tput sgr0;
 }
 
-cEcho "[+] Preparing chroot"
-rsync -avh --devices --specials /run/systemd/resolve $WORKING_PATH/run/systemd
+# Calling activation script
+./activate.sh
 
 cEcho "[+] Copying files to chrooted environment"
 cp -rf $DATA_PATH/{pip,deb,keys,files,chrooted.sh,scripts,jxminer} $WORKING_PACKAGE_PATH
-#cp -rf $DATA_PATH/rc.local $WORKING_PATH/etc
-#cp -rf $DATA_PATH/jxos_install.sh $WORKING_PATH/opt/
 
-cEcho "[+] Chrooting to workspace"
-mount --bind /dev/ $WORKING_PATH/dev
+cEcho "[+] Chrooting to workspace and populating them"
 chroot $WORKING_PATH /root/chrooted.sh
 
-cEcho "[+] Unmounting chrooted system"
-umount -lf $WORKING_PATH/proc
-umount -lf $WORKING_PATH/sys
-umount -lf $WORKING_PATH/dev
-
-cEcho "[+] Cleaning chrooted environment"
-cp -rf $WORKING_PACKAGE_PATH/filesystem.manifest $TEMP_PATH/filesystem.manifest
-rm -rf $WORKING_PACKAGE_PATH/chrooted.sh
-rm -rf $WORKING_PACKAGE_PATH/filesystem.manifest
-rm -rf $WORKING_PATH/run/systemd/*
-
+# Calling deactivation script
+./deactivate.sh
 
 cEcho "[+] Completed"

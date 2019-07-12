@@ -1,11 +1,7 @@
 #!/bin/bash
+# Script for generating the iso file
 
-MOUNT_PATH="./cdrom"
 SOURCE_PATH="./source"
-DATA_PATH="./data"
-WORKING_PATH="./workspace"
-PACKAGE_PATH="/root"
-TEMP_PATH="./temp"
 
 function cEcho(){
     local exp=$1;

@@ -1,8 +1,6 @@
 #!/bin/bash
+# Script for cleaning up the chrooted environment
 
-MOUNT_PATH="./cdrom"
-SOURCE_PATH="./source"
-DATA_PATH="./data"
 WORKING_PATH="./workspace"
 PACKAGE_PATH="/root"
 TEMP_PATH="./temp"
@@ -27,27 +25,16 @@ function cEcho(){
     tput sgr0;
 }
 
-#cEcho "[+] Preparing chroot"
-#rsync -avh --devices --specials /run/systemd/resolve $WORKING_PATH/run/systemd
-
-#cEcho "[+] Copying files to chrooted environment"
-#cp -rf $DATA_PATH/{pip,deb,keys,files,chrooted.sh} $WORKING_PATH$PACKAGE_PATH
-#cp -rf $DATA_PATH/jxos_install.sh $WORKING_PATH/opt/
-
-#cEcho "[+] Chrooting to workspace"
-#mount --bind /dev/ $WORKING_PATH/dev
-#chroot $WORKING_PATH /root/chrooted.sh
-
 cEcho "[+] Unmounting chrooted system"
 umount -lf $WORKING_PATH/proc
 umount -lf $WORKING_PATH/sys
 umount -lf $WORKING_PATH/dev
 
-#cEcho "[+] Cleaning chrooted environment"
+cEcho "[+] Cleaning chrooted environment"
 cp -rf $WORKING_PATH$PACKAGE_PATH/filesystem.manifest $TEMP_PATH/filesystem.manifest
 rm -rf $WORKING_PATH$PACKAGE_PATH/chrooted.sh
 rm -rf $WORKING_PATH$PACKAGE_PATH/filesystem.manifest
 rm -rf $WORKING_PATH/run/systemd/*
 
 
-cEcho "[+] Completed"
+cEcho "[+] Chrooted environment cleaning Completed"

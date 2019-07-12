@@ -1,13 +1,10 @@
 #!/bin/bash
+# Script for populating the chrooted environment with ubuntu
 
 ARCH="amd64"
 RELEASE="bionic"
-MOUNT_PATH="./cdrom"
-SOURCE_PATH="./source"
 DATA_PATH="./data"
 WORKING_PATH="./workspace"
-PACKAGE_PATH="/root"
-TEMP_PATH="./temp"
 
 function cEcho(){
     local exp=$1;

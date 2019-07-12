@@ -1,10 +1,9 @@
 #!/bin/bash
+# Script for generating packed squashfs
 
-MOUNT_PATH="./cdrom"
 SOURCE_PATH="./source"
 DATA_PATH="./data"
 WORKING_PATH="./workspace"
-PACKAGE_PATH="/root"
 TEMP_PATH="./temp"
 
 function cEcho(){

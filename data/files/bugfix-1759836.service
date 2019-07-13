@@ -1,9 +1,0 @@
-[Unit]
-Description=Fix for https://bugs.launchpad.net/ubuntu/+source/systemd/+bug/1759836
-
-[Service]
-Type=oneshot
-ExecStart=/bin/bash -c "services='systemd-udevd systemd-udevd-kernel.socket systemd-udevd-control.socket';systemctl stop $services;systemctl start $services"
-
-[Install]
-WantedBy=multi-user.target

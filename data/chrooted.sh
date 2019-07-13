@@ -99,7 +99,7 @@ DEBIAN_FRONTEND=noninteractive /usr/bin/apt install -q 2 -y apt-fast -o Dpkg::Op
 # Install all the required program that can be installed via ubuntu repository
 cEcho "[-] Installing softwares"
 DEBIAN_FRONTEND=noninteractive /usr/bin/apt install -q 2 -y \
-	ubuntu-standard casper lupin-casper discover laptop-detect os-prober linux-generic ubiquity-frontend-debconf \
+	ubuntu-standard casper lupin-casper discover laptop-detect os-prober linux-generic \
 	grub2 plymouth-x11 network-manager \
 	nvidia-driver-418 nvidia-settings lightdm- cuda-cudart-9-2 \
 	python python-pip  python-nfqueue  python-urwid  python-setuptools  \
@@ -190,11 +190,12 @@ usermod -aG sudo jxminer
 
 cEcho "[-] Preparing setup files"
 mkdir -p /home/jxminer/setup/files
+mv /root/files/jxos-setup.service /etc/systemd/system/
 mv /root/scripts/* /home/jxminer/setup/
 mv /lib/udev/rules.d/71-nvidia.rules /home/jxminer/setup/files/
 mv /lib/systemd/system/nvidia-persistenced.service /home/jxminer/setup/files/
 
-cEcho "[=] Updating locales"
+cEcho "[-] Updating locales"
 echo "export LANGUAGE=en_US.UTF-8" >> /home/jxminer/.bash_profile
 echo "export LANG=en_US.UTF-8" >> /home/jxminer/.bash_profile
 echo "export LC_ALL=en_US.UTF-8" >> /home/jxminer/.bash_profile
@@ -205,11 +206,6 @@ echo "LC_ALL=en_US.UTF-8" >> /etc/environment
 cEcho "[-] Fixing jxminer home folders"
 chown -R jxminer:jxminer /home/jxminer
 usermod -m -d /home/jxminer jxminer
-
-cEcho "[-] Bug fix for udev infinite loop"
-cp -rf $PACKAGE_PATH/files/jxos-setup.service /etc/systemd/system
-cp -rf $PACKAGE_PATH/files/custom.target /etc/systemd/system
-mkdir /etc/systemd/system/custom.target.wants
 
 systemctl daemon-reload
 

@@ -157,6 +157,16 @@ cp -f $PACKAGE_PATH/files/edid.bin /etc/X11
 cEcho "[-] Configuring AMD driver"
 echo "export LLVM_BIN=/opt/amdgpu-pro/bin" || tee /etc/profile.d/amdgpu-pro.sh
 
+cEcho "[-] Disable motd"
+sed -i 's/^ENABLED=.*/ENABLED=0/' /etc/default/motd-news
+rm -rf /etc/update-motd.d/*
+
+
+cEcho "[-] Removing ubuntu branding"
+echo "JXOS \n \l" > /etc/issue
+echo "JXOS" > /etc/issue.net
+
+
 # Configuring nodm
 cEcho "[-] Configuring NoDM"
 sed -i 's|NODM_ENABLED=false|NODM_ENABLED=true|g' /etc/default/nodm
@@ -196,12 +206,12 @@ mv /lib/udev/rules.d/71-nvidia.rules /home/jxminer/setup/files/
 mv /lib/systemd/system/nvidia-persistenced.service /home/jxminer/setup/files/
 
 cEcho "[-] Updating locales"
-echo "export LANGUAGE=en_US.UTF-8" >> /home/jxminer/.bash_profile
-echo "export LANG=en_US.UTF-8" >> /home/jxminer/.bash_profile
-echo "export LC_ALL=en_US.UTF-8" >> /home/jxminer/.bash_profile
-echo "LANGUAGE=en_US.UTF-8" >> /etc/environment
-echo "LANG=en_US.UTF-8" >> /etc/environment
-echo "LC_ALL=en_US.UTF-8" >> /etc/environment
+echo "export LANGUAGE=C.UTF-8" >> /home/jxminer/.bash_profile
+echo "export LANG=C.UTF-8" >> /home/jxminer/.bash_profile
+echo "export LC_ALL=C.UTF-8" >> /home/jxminer/.bash_profile
+echo "LANGUAGE=C.UTF-8" >> /etc/environment
+echo "LANG=C.UTF-8" >> /etc/environment
+echo "LC_ALL=C.UTF-8" >> /etc/environment
 
 cEcho "[-] Fixing jxminer home folders"
 chown -R jxminer:jxminer /home/jxminer
@@ -240,7 +250,11 @@ rm -f /etc/systemd/system/sockets.target.wants/apport-forward.socket
 
 
 cEcho "[-] Removing packages"
-DEBIAN_FRONTEND=noninteractive /usr/bin/apt -q 2 -y remove apparmor ufw apport
+#DEBIAN_FRONTEND=noninteractive /usr/bin/apt -q 2 -y remove apparmor ufw apport plymouth-*
+DEBIAN_FRONTEND=noninteractive /usr/bin/apt -q 2 -y purge \ 
+   apparmor ufw apport plymouth* update-manager-core accountsservice \
+   ftp modemmanager ppp popularity-contest unattended-upgrades \
+   vlc*
 
 # Fix any missing dependencies
 #cEcho "[-] Fixing missing dependencies"

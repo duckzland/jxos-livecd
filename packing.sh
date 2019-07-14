@@ -66,7 +66,8 @@ rm -f $SOURCE_PATH/casper/filesystem.squashfs
 
 cEcho "[+] Building squashfs"
 # Exclude boot to save space if no installation needed
-mksquashfs $WORKING_PATH $SOURCE_PATH/casper/filesystem.squashfs -e boot
+mksquashfs $WORKING_PATH $SOURCE_PATH/casper/filesystem.squashfs -e boot -b 1048576 -comp xz -Xdict-size 100%
+#mksquashfs $WORKING_PATH $SOURCE_PATH/casper/filesystem.squashfs -e boot
 #mksquashfs $WORKING_PATH $SOURCE_PATH/casper/filesystem.squashfs
 
 

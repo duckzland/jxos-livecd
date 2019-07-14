@@ -138,6 +138,7 @@ cEcho "[-] Installing Python requirements"
 /usr/bin/pip install $PACKAGE_PATH/pip/*
 
 # Websocket problematic need to install it last
+/usr/bin/pip uninstall -y websocket-client
 /usr/bin/pip install websocket-client
 
 # Installing packages
@@ -176,7 +177,7 @@ cp -r /etc/default/nodm /etc/nodm.conf
 
 # Adding jxos user
 cEcho "[-] Generating default user"
-echo "useradd jxminer"
+useradd jxminer
 echo -e "jxminer\njxminer" | passwd jxminer
 
 cEcho "[-] Changing root password"
@@ -251,7 +252,7 @@ rm -f /etc/systemd/system/sockets.target.wants/apport-forward.socket
 
 cEcho "[-] Removing packages"
 #DEBIAN_FRONTEND=noninteractive /usr/bin/apt -q 2 -y remove apparmor ufw apport plymouth-*
-DEBIAN_FRONTEND=noninteractive /usr/bin/apt -q 2 -y purge \ 
+DEBIAN_FRONTEND=noninteractive /usr/bin/apt -q 2 -y purge \
    apparmor ufw apport plymouth* update-manager-core accountsservice \
    ftp modemmanager ppp popularity-contest unattended-upgrades \
    vlc*

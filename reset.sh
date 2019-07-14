@@ -37,8 +37,8 @@ rm -rf $WORKING_PATH/*
 cEcho "[+] Removing temp folder"
 rm -rf $TEMP_PATH/*
 
-cEcho "[+] Unmounting cdrom"
-umount $MOUNT_PATH
+#cEcho "[+] Unmounting cdrom"
+#umount $MOUNT_PATH
 
 cEcho "[+] Cleaning isofile content"
 rm -rf $SOURCE_PATH/*

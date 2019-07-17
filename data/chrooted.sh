@@ -42,7 +42,7 @@ export HOME=/root
 export LC_ALL=C
 
 # Set global locale
-echo "LL_ALL=\"en_US.UTF-8\"" >> /etc/default/locale
+echo "LL_ALL=\"C.UTF-8\"" >> /etc/default/locale
 
 # Set Swappiness
 echo "vm.swappiness=10" >> /etc/sysctl.conf
@@ -108,17 +108,8 @@ DEBIAN_FRONTEND=noninteractive /usr/bin/apt install -q 2 -y \
 	libcurl4 curl libmicrohttpd12 libssl1.0.0 gir1.2-gdkpixbuf-2.0 libgdk-pixbuf2.0-0 libgdk-pixbuf2.0-0 libgdk-pixbuf2.0-common \
 	lm-sensors wget nodm xinit awesome \
 	kio xdg-utils kde-cli-tools trash-cli libglib2.0-bin gvfs-bin gconf-service-backend \
-	gconf2-common libgconf-2-4 libdbus-glib-1-2 gconf-service libgconf2-4 libnotify4 xterm \
+	gconf2-common libgconf-2-4 libdbus-glib-1-2 gconf-service libgconf2-4 libnotify4 xterm net-tools \
 	-o Dpkg::Options::="--force-confdef"
-
-# Early upgrade
-#cEcho "[-] Upgrading packages"
-#DEBIAN_FRONTEND=noninteractive /usr/bin/apt upgrade -q 2 -y -o Dpkg::Options::="--force-confdef"
-
-
-### UPDATING KERNEL
-### Double check the best kernel for ubuntu 18
-# DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get install -y --force-yes linux-image-4.13.0-45-generic linux-headers-4.13.0-45-generic linux-image-extra-4.13.0-45-generic -o Dpkg::Options::="--force-confdef"
 
 
 # Installing amd headless driver
@@ -223,9 +214,7 @@ systemctl daemon-reload
 cEcho "[-] Setting up systemctl"
 systemctl enable jxminer
 systemctl enable nodm
-#systemctl enable rc.local
 systemctl enable jxos-setup
-#systemctl enable bugfix-1759836
 
 systemctl disable ufw
 systemctl disable apt-daily-upgrade
@@ -241,6 +230,9 @@ systemctl disable snapd.hold
 systemctl disable accounts-daemon
 systemctl disable apport-autoreport
 systemctl disable nvidia-persistenced
+systemctl disable lxd-containers
+systemctl disable lvm2-lvmetad
+
 
 rm -f /etc/systemd/system/apparmor.service
 rm -f /etc/systemd/system/apport-forward.socket
@@ -248,23 +240,20 @@ rm -f /etc/systemd/system/ufw.service
 rm -f /etc/systemd/system/timers.target.wants/apt-daily-upgrade.timer
 rm -f /etc/systemd/system/timers.target.wants/apt-daily.timer
 rm -f /etc/systemd/system/sockets.target.wants/apport-forward.socket
+rm -f /etc/systemd/system/lvm2*
+rm -f /etc/systemd/system/lxd*
+rm -f /etc/systemd/system/pppd-dns.service
+rm -f /etc/systemd/system/snapd*
+rm -f /etc/systemd/system/unattended-upgrades.service
 
 
 cEcho "[-] Removing packages"
-#DEBIAN_FRONTEND=noninteractive /usr/bin/apt -q 2 -y remove apparmor ufw apport plymouth-*
 DEBIAN_FRONTEND=noninteractive /usr/bin/apt -q 2 -y purge \
    apparmor ufw apport plymouth* update-manager-core accountsservice \
    ftp modemmanager ppp popularity-contest unattended-upgrades \
-   vlc*
+   vlc* lvm2 lxd ubuntu-release-upgrader-core tmux vim screen lxd-client squashfs-tools pinentry-curses \
+   fakeroot desktop-file-utils
 
-# Fix any missing dependencies
-#cEcho "[-] Fixing missing dependencies"
-#DEBIAN_FRONTEND=noninteractive /usr/bin/apt -q 2 -y --fix-broken install
-
-
-# Final software update
-#cEcho "[-] Performing final software update"
-#/usr/bin/apt -q 2 -y update
 
 
 cEcho "[-] Generating manifest"

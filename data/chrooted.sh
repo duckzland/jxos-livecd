@@ -143,6 +143,7 @@ DEBIAN_FRONTEND=noninteractive /usr/bin/dpkg -i --force-confdef $PACKAGE_PATH/de
 # This should be done manually by user after the system boots
 cEcho "[-] Configuring XServer"
 cp -f $PACKAGE_PATH/files/edid.bin /etc/X11
+cp -f $PACKAGE_PATH/files/10-monitor.conf /usr/share/X11/xorg.conf.d/
 #/usr/bin/nvidia-xconfig -a --allow-empty-initial-configuration --use-display-device="DFP-0:/etc/X11/edid.bin" --connected-monitor="DFP-0" --cool-bits=31
 
 # AMDGPU setup

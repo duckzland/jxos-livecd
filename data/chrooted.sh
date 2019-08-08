@@ -101,7 +101,7 @@ cEcho "[-] Installing softwares"
 DEBIAN_FRONTEND=noninteractive /usr/bin/apt install -q 2 -y \
 	ubuntu-standard casper lupin-casper discover laptop-detect os-prober linux-generic \
 	grub2 plymouth-x11 network-manager \
-	nvidia-driver-418 nvidia-settings lightdm- cuda-cudart-9-2 \
+	nvidia-driver-418 nvidia-cuda-toolkit nvidia-settings lightdm- cuda-cudart-9-2 \
 	python python-pip  python-nfqueue  python-urwid  python-setuptools  \
 	python-ptyprocess  python-lzma  python-minimal  python-magic  python-soappy \
 	python-wstools  python-wheel  python-dev  python-pkg-resources  python-pip-whl  libsystemd-dev \

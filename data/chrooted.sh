@@ -210,6 +210,11 @@ cEcho "[-] Fixing jxminer home folders"
 chown -R jxminer:jxminer /home/jxminer
 usermod -m -d /home/jxminer jxminer
 
+cEcho "[-] Disabling motd at pam.d"
+sed -i 's|session    optional     pam_motd.so  motd=/run/motd.dynamic|# session    optional     pam_motd.so  motd=/run/motd.dynamic|g' /etc/pam.d/sshd
+sed -i 's|session    optional     pam_motd.so noupdate|# session    optional     pam_motd.so noupdate|g' /etc/pam.d/sshd
+
+
 systemctl daemon-reload
 
 cEcho "[-] Setting up systemctl"
@@ -233,7 +238,7 @@ systemctl disable apport-autoreport
 systemctl disable nvidia-persistenced
 systemctl disable lxd-containers
 systemctl disable lvm2-lvmetad
-
+systemctl disable motd-news
 
 rm -f /etc/systemd/system/apparmor.service
 rm -f /etc/systemd/system/apport-forward.socket
@@ -246,7 +251,11 @@ rm -f /etc/systemd/system/lxd*
 rm -f /etc/systemd/system/pppd-dns.service
 rm -f /etc/systemd/system/snapd*
 rm -f /etc/systemd/system/unattended-upgrades.service
-
+rm -f /etc/systemd/system/timers.target.wants/motd-news.timer
+rm -f /lib/systemd/system/apt-daily*
+rm -f /lib/systemd/system/avahi*
+rm -f /lib/systemd/system/bluetooth*
+rm -f /lib/systemd/system/motd*
 
 cEcho "[-] Removing packages"
 DEBIAN_FRONTEND=noninteractive /usr/bin/apt -q 2 -y purge \

@@ -43,9 +43,9 @@ for idx, line in enumerate(raw):
       board  = "Nvidia"
 
     p = line[:7]
-    pci1 = int(p.split(':')[0])
-    pci2 = int(p.split(':')[1].split('.')[0])
-    pci3 = int(p.split('.')[1])
+    pci1 = p.split(':')[0]
+    pci2 = p.split(':')[1].split('.')[0]
+    pci3 = p.split('.')[1]
     pci = "PCI:%s:%s:%s" % (pci1, pci2, pci3)
 
 
